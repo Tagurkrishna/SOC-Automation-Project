@@ -1,7 +1,7 @@
 Installation of VM Ware of Windows Machine
 
 Before Installing Any VM Ware
-Example Oracle VM Ware Download SHA256 File and recheck after downloading the VM Ware
+Example : Oracle VM Ware Download SHA256 File and recheck after downloading the VM Ware
 To Recheck right click on the floder you placed the downloaded file and open windows power shell and use command : Get-FileHash .\"FileName" (FileName Copy Paste from propety) Once the SHA256 Value Matches then install it.
 
 It is one more prevention method to stay safe from any unknown file or wrong file getting install and being secure with other attackers.
@@ -16,4 +16,54 @@ Processor : Least 1 Processor
 Start VM Ware and Complete the installation.
 
 After logging Install Sysmon
+Use the link below for Downloading and Sysmon Config file : https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Sysmon-Install
 
+After Downloading Extact the sysmon zip file and Download sysmon config file as raw file and replace it in extracted sysmon folder
+
+Now Open the Windows Powershell with Administartion Access.
+Now Access the directory in which the sysmon folder is located by using command cd "directoy path"
+
+Now it will redirect to directory now use command ".\sysmon64.exe -i sysmonconfig.xml'
+.\sysmon64.exe - Installation file
+-i command to install optionally take a configuration file
+sysmonconfig.xml - File download from github used to configure the sysmon installtion
+
+Once CLI Installtion Complete, You will be displayed with GUI Installtion and process as per procedure
+
+To Recheck Installation:
+Click Windows key and type service over the services running you can find Sysmon
+Also you can find in Event viewer
+Click Windows key and type event viewer, Once event Viewer is opened
+Application and Services Log -> Microsoft -> Windows -> You need to drag down until you find Sysmon
+
+"Ubuntu Cloud Setup"
+Oceand-Digital Cloud Platform 
+Requirement:
+Name: Wazuh
+Create Droplet/Cloud (Host was selected by near by Data Center)
+OS : Ubuntu 22.04 (LTS) x64
+CPU : 2 Processors Premium Intel DIsk NVMe SSD ( Any CPU with good speeds Work)
+Ram : 8GB
+SSD : 120 GB
+Transfer Speed : 2TB (Recommened) 5TB (Used)
+
+Once the Cloud or Droplet is created. 
+Create Firewall for Extra protection
+In Inbound Rules Change All TCP Sources to your Own "IP Addresses" - Mention IPV4 Address in Allowed List. You can find IP address by typing in net MyIPAddress and you can find in website.
+ALL UDP Sources to your Own "IP Addresses" - Mention IPV4 Address in Allowed List.
+Create Fire Wall
+Once Firewall is created, Use the created firewall as protection for the cloud/Droplet.
+
+Once it is created Use IPV4 Address of created Droplet/Cloud and lanuch console of Wazuh
+Use Command to update : "apt-get update && apt-get upgrade -y" Once the updates got installed.
+Use Command from below link and run all commands one by one : https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions
+
+You Will see User name and Password Kindly note it down. 
+If you miss to note it down they is command in link use it to get password for complete Wazuh Dashboard.
+
+Now copy IPV4 address of Wazuh Droplet and open in your browser by inserting https:"ipv4 Address of Wazuh"
+
+A Login Page of Wazuh will apear use User ID and Password to login.
+
+With the same Procedure Create another Droplet and name it as thehive.
+Install all the required software with the above link one by one : https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/TheHive-Install-Instructions.
