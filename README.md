@@ -26,6 +26,12 @@ This project demonstrates the implementation of automated Security Operations Ce
 - **Real-time Monitoring:** Developing dashboards in Kibana to visualize security events and incidents.
 - **Incident Analysis:** Providing insights and analytics to help understand and mitigate threats.
 
+## Automation Workflows
+- **Shuffle:** Automating workflows and integrating tools.
+- **Integrated Results:** Combining data from various sources for comprehensive analysis.
+- **VirusTotal Integration:** Injecting results into VirusTotal for threat intelligence.
+- **Fully Integrated SOAR Solution:** Incorporating Wazuh & TheHive for case management.
+
 ## Tools and Technologies Used
 - **ELK Stack (Elasticsearch, Logstash, Kibana)**
 - **SIEM Solutions**
@@ -43,7 +49,5 @@ This project demonstrates the implementation of automated Security Operations Ce
 - Integration of multiple security tools to provide a comprehensive defense mechanism.
 
 </small>
-
-
 
 Completled Project with the help and gudiance of MYDFIR.
