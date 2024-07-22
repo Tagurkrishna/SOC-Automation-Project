@@ -4,6 +4,8 @@ The goal here is to start from nothing to a fully integrated SOAR solution incor
 
 # SOC Automation Project (Home Lab)
 
+<small>
+
 ## Overview
 This project demonstrates the implementation of automated Security Operations Center (SOC) processes using a home lab environment. The aim is to integrate and automate various security tools and techniques to enhance threat detection and response capabilities.
 
@@ -39,6 +41,9 @@ This project demonstrates the implementation of automated Security Operations Ce
 - End-to-end SOC automation from log collection to incident response.
 - Customizable dashboards for real-time security monitoring.
 - Integration of multiple security tools to provide a comprehensive defense mechanism.
+
+</small>
+
 
 
 Completled Project with the help and gudiance of MYDFIR.
