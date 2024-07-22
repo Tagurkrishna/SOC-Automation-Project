@@ -35,6 +35,8 @@ This project demonstrates the implementation of automated Security Operations Ce
 ## Tools and Technologies Used
 - **ELK Stack (Elasticsearch, Logstash, Kibana)**
 - **SIEM Solutions**
+- **Wazuh**
+- **TheHive**
 - **Python/Bash Scripts for Automation**
 - **Network Simulation Tools**
 
