@@ -40,7 +40,7 @@ Application and Services Log -> Microsoft -> Windows -> You need to drag down un
 Oceand-Digital Cloud Platform 
 Requirement:
 Name: Wazuh
-Create Droplet/Cloud (Host was selected by near by Data Center)
+Create Droplet/Cloud (Host was selected by near Data Center)
 OS : Ubuntu 22.04 (LTS) x64
 CPU : 2 Processors Premium Intel DIsk NVMe SSD ( Any CPU with good speeds Work)
 Ram : 8GB
@@ -119,7 +119,7 @@ Hive server should now be up and running. You can access the Hive dashboard by n
 
 Here are the steps to configure Wazuh server:
 
-Log into Wazuh dashboard using the administrative credentials obtained.(If you forgot password Kindly refer the link https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions)
+Log into Wazuh dashboard using the administrative credentials obtained.(If you forgot password refer line 62)
 Add an agent by clicking on ADD agent and selecting Windows.
 Server address: Public IP of Wazuh server.
 Assign an agent name (optional).
