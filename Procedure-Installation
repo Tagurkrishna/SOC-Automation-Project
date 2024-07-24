@@ -65,5 +65,65 @@ Now copy IPV4 address of Wazuh Droplet and open in your browser by inserting htt
 
 A Login Page of Wazuh will apear use User ID and Password to login.
 
-With the same Procedure Create another Droplet and name it as thehive.
+With the same Procedure Create another Droplet and name it as thehive and configuration is mentioned in link provide below.
 Install all the required software with the above link one by one : https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/TheHive-Install-Instructions.
+
+Configuring TheHive & Wazuh Server
+
+Here are the steps to configure the Hive server:
+
+Edit Cassandra configuration file path: /etc/cassandra/cassandra.yaml
+Nano /etc/cassandra/cassandra.yaml
+To search use (Control + W) or (Control + Q)
+Change listen_address and RPC_address to the public IP of the Hive server.
+Change seed_address to the public IP of the Hive server.
+Stop Cassandra service: systemctl stop cassandra.
+And Save it with by using (Control + X) and press Y and hit enter. It will be saved
+Remove old files: rm -rf /var/lib/cassandra/*.
+
+After Every changes we make we need to restart the system to get it updated and start with all the configuration.
+Start Cassandra service: systemctl start cassandra.
+Check Cassandra service status: systemctl status cassandra.
+Edit Elasticsearch configuration file: /etc/elasticsearch/elasticsearch.yml
+To search use (Control + W) or (Control + Q)
+Uncomment cluster name and change it to the Hive server name.
+Uncomment network host and set it to the public IP of the Hive server.
+Uncomment http port (optional).
+Uncomment discovery seed or cluster initial master node (optional).
+And Save it with by using (Control + X) and press Y and hit enter. It will be saved
+
+After Every changes we make we need to restart the system to get it updated and start with all the configuration.
+Start Elasticsearch service: systemctl start elasticsearch.
+Enable Elasticsearch service: systemctl enable elasticsearch.
+Check Elasticsearch service status: systemctl status elasticsearch.
+
+Check whether we have access to thehive file path
+ls -la /opt/thp/
+If Not Change Access
+Change owner and group of the Hive directory to The Hive user and group: chown -R TheHive:TheHive /opt/thehive.
+Edit Hive configuration file: /etc/thehive/application.conf.
+
+Change in database and index Comment Column
+host name to the public IP of the Hive server.
+Change cluster name for Cassandra to the name you specified.
+Change host name to the public IP of the Hive server.
+Change storage path to a directory owned by The Hive user and group.(localfs.location = /opt/thp/thehive/files)
+but as we changed the ownership to same directory no need to modify it.
+Change application.basedURL to the public IP of the Hive server.
+And Save it with by using (Control + X) and press Y and hit enter. It will be saved
+
+Start Hive service: systemctl start thehive.
+Enable Hive service: systemctl enable thehive.
+Check Hive service status: systemctl status thehive.
+Hive server should now be up and running. You can access the Hive dashboard by navigating to the public IP of the Hive server with port 9000 and logging in with the default credentials (admin:admin and password:secret).
+
+Here are the steps to configure Wazuh server:
+
+Log into Wazuh dashboard using the administrative credentials obtained.(If you forgot password Kindly refer the link https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions)
+Add an agent by clicking on ADD agent and selecting Windows.
+Server address: Public IP of Wazuh server.
+Assign an agent name (optional).
+Copy the provided command and run it on the Windows machine with administrative privileges to install the agent.
+Start the service on the Windows machine: net start WazuhSVC (or start the service from Services).
+Check the Wazuh dashboard. You should see the agent listed as active after a few seconds.
+Now you have both Hive and Wazuh servers configured and working as expected.
