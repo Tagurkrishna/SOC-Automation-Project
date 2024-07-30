@@ -127,3 +127,61 @@ Copy the provided command and run it on the Windows machine with administrative 
 Start the service on the Windows machine: net start WazuhSVC (or start the service from Services).
 Check the Wazuh dashboard. You should see the agent listed as active after a few seconds.
 Now you have both Hive and Wazuh servers configured and working as expected.
+
+Generating Telemetry from a Windows 10 machine
+
+Configure ossec.conf file to ingest Sysmon logs:
+Open the ossec.conf file located at: C:\Program Files (x86)\ossec-agent\ossec.conf
+You can open the file with notepad as Administator. In the file, find the log analysis section.
+Add a new local file tag under the <log_analysis> section.
+Set the name of the location tag to “SysmonChannel's Name”
+Find the Sysmon channel name by going to Event Viewer -> Applications and Services -> Microsoft-Windows -> Windows Security -> Right click on “Operational” -> Select Properties -> Copy the full name under “Channel”
+Paste the copied channel name into the location tag under <application>.
+
+Restart Wazuh service:
+Open services.msc, Locate Wazuh service. Right-click on the service and select “Restart”
+Verify Sysmon events are being ingested:
+Open the Wasa dashboard
+Go to Events -> Alerts Index
+Search for “sysmon”
+
+Download Mimikatz:
+Make sure to disable Windows Defender or exclude your downloads folder before downloading Mimikatz.
+Download Mimikatz and save it to your downloads folder.
+Extract Mimikatz:
+Right-click on the downloaded Mimikatz archive and select “Extract All”.
+Run Mimikatz as administrator:
+Open a PowerShell session with administrative privileges.
+Change your directory to the location where you extracted Mimikatz.
+Run the command: mimikatz.exe
+Create a custom alert in Wazuh to detect Mimikatz:
+Go to the Wazuh manager CLI and create a backup of the ossec.conf file. (Always Create Backup for Configuration files which will save during error cases)
+Edit the ossec.conf file and change the <log_all> section to “yes” under the `<alerts>” section. This will allow Wazuh to log everything.
+Restart the Wasa manager service by typing: system ctl restart wazuh-manager
+Update the filebeat configuration file by typing: nano /etc/filebeat/filebeat.yml
+Change the archives_enabled setting to “true”.
+Restart the filebeat service by typing: systemctl restart filebeat
+Create a new index pattern in the Wazuh dashboard by clicking on the hamburger icon in the top left corner and selecting “Stack Management” -> “Index Patterns”.
+Name the new index pattern “Wazuh-Archives-*”.
+Select the “timestamp” field for the time field.
+Go to Discover in the Wasa dashboard and select the “Wazuh-Archives-*” index pattern from the dropdown menu.
+Search for “mimikatz” in the search bar.
+
+Create a custom rule to target Mimikatz:
+Go to the Wazuh dashboard and click on the home button.
+Select “Management” -> “Rules” -> “Manage Rule Files”.
+Search for “sysmon” and select the rule “0800-sysmon_id_1.xml”.
+Copy the rule and paste it into the local rule file in the custom rules section.
+Modify the copied rule:
+Change the ID field to “100002”.
+Change the level field to “15” for severity.
+Change the “field_name” to “originalFileName”.(Do Mention name as it is in log even a lowercase will not trigger the alert)
+Change the “value” to “mimikatz” to target Mimikatz specifically.
+Modify the “description” field to a more descriptive message.
+Modify the “MITRE_ID” field to “003” for credential dumping.
+Save the rule.
+Restart the Wazuh manager service.
+
+After restarting the Wazuh-manager
+now change the file name on Demo PC and try restarting the service now can find a alert in Wazuh dashboard even though the file name has changed the "orginalFileName" = Is set to mimikatz.
+
