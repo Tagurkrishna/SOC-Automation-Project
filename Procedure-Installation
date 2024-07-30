@@ -2,7 +2,7 @@ Installation of VM Ware of Windows Machine
 
 Before Installing Any VM Ware
 Example : Oracle VM Ware Download SHA256 File and recheck after downloading the VM Ware
-To Recheck right click on the application you placed the downloaded file and open windows power shell and use command : Get-FileHash .\"FileName" (FileName Copy Paste from propety) Once the SHA256 Value Matches then install it.
+To Recheck copy the path you placed the downloaded file and open windows power shell and use command : Get-FileHash .\"FileName" (FileName Copy Paste from propety) Once the SHA256 Value Matches then install it.
 
 It is one more prevention method to stay safe from any unknown file or wrong file getting install and being secure with other attackers.
 
