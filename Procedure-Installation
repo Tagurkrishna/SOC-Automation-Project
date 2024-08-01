@@ -241,3 +241,17 @@ Tlp -> 2
 Type -> Internal
 
 Change the Firewall Setting add UDP with Port : 9000 and allow all IPV4.
+Run the workflow, aftersuccesful competion you will recive a mail to your TheHive mail id.
+
+With This The SOC Automation Projects Ends
+
+Apart from TheHive we can automate by using Temp or Disposable or any domain Email id, Even add addtional security features like Ip Address filtering and blocking of unauthorized ip address.
+Use Webflow Apps and triggers:
+Wazuh
+Email
+HTTP
+WebHook
+Virustotal
+UserInput
+
+COnfigure and work these
