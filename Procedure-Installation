@@ -156,6 +156,11 @@ Change your directory to the location where you extracted Mimikatz.
 Run the command: mimikatz.exe
 Create a custom alert in Wazuh to detect Mimikatz:
 Go to the Wazuh manager CLI and create a backup of the ossec.conf file. (Always Create Backup for Configuration files which will save during error cases)
+Command : 
+cp /var/ossec/etc/ossec.conf ~/ossec-backup.conf
+Do check it by using command ls
+
+Command: nano /var/ossec/etc/ossec.conf
 Edit the ossec.conf file and change the <log_all> section to “yes” under the `<alerts>” section. This will allow Wazuh to log everything.
 Restart the Wasa manager service by typing: system ctl restart wazuh-manager
 Update the filebeat configuration file by typing: nano /etc/filebeat/filebeat.yml
@@ -185,3 +190,54 @@ Restart the Wazuh manager service.
 After restarting the Wazuh-manager
 now change the file name on Demo PC and try restarting the service now can find a alert in Wazuh dashboard even though the file name has changed the "orginalFileName" = Is set to mimikatz.
 
+Now the Final Integration part using SOAR Platform(Shuffle)
+Now we need to login in and create a account in Shuffle(https://shuffler.io/)
+They are two environments in Shuffle one is Cloud and Another is Onprem Environment
+Need to run on OnpremEnvironment which needs Orobous which is runned locally using Docker Installtion gudie(https://github.com/Shuffle/Shuffle/blob/main/.github/install-guide.md#orborus)
+Once the installation is done you can start creating the workflow.
+Click on Workflow Tabs on top left corner after logging.
+Use Create workflow option to create new workflow and name the work flow and Usecases Select any save it and proceed.
+You will be seen with Change me icon on workflow. Now from trigger section add Webhook and customize it by changing it name for better and clear understanding.
+Now click on Change_me icon on workflow and for intialze checking find actions be as Repeat back to me and Call should be give as Execution Statement.
+Copy Webhook URL from Webhook and place it on conf files of Wazuh, On wazuh console use command: nano /var/ossec/etc/ossec.conf and paste the command provide below between Ossec configuration and alerts by maintaining indendtation
+ <integration>
+     <name>shuffle</name>
+     <hook_url>Link</hook_url>
+     <level>15</level>
+     <alert_format>json</alert_format>
+ </integration>
+
+And Save the file by using ctrl+X and Press Y and Press Enter to save file.
+Use Command:
+systemctl restart wazuh-manager.service 
+Restart the Wazuh-manager after every configuration to get updated. And do start mimikatz on Demopc(Vm Ware Created)
+
+On Shuffel start the Webhook URL and Run the execution or workflows you will can find sucessful exectuion if the exectuion takes more time then 30 Sec (Reconfirm installtion of Docker and check whether Docker has installed and configured with Onprem Environment correctly)
+Succesful Execution, Select Change_me icon(Rename it for better understanding i used Hash_SHA256) and change the Action to Regex Capture Group
+In field of input data Click Plus Button and it shows execution statement coloumn select Hash. input regex value on RegexValue Field based on Hash value you seen on exectuion of Webhook, If we dont know how to create one dont worry ask ChatGPt.
+Return the execution to check all the hash values displaying in log. I selected hash values to inject it to Virustotal to get the detailed information of the file or walmare report.
+Now create a account in VirusTotal and copy API. In shuffle search for VirusTotal and insert it in Workflow and customize it. Click on + beside authentication row and then paste the API key and submit it.
+Select Get Hash Reports on Action filed and scroll down for Id Field click on + and slect Hash_SHA256 a drop down will appear select list and save the work flow and rerun it.You can find all the execution are success if you face any issue do recheck all the configuration Wazuh Vmware and rerun mimikatz on pc to get the report.
+
+Open TheHive Ip address on web browser by port 9000. If you face any issue during login in do check all the services are running. Even after succesful running service if the issue still presist vist TheHive-Install-instructions folder for further resolution.
+User : admin
+password: secret
+Click on users tab and add user and Give the required field(Login should be a email id which can be sample@test.com example) and create a user and select analyst in profile tab, Highlight the account and click preview and set a new password. 
+Create a new user Change the type from normal to service and fill all the required fields, Profile feild as analyst.Highlight the account and click preview create a API key and copy that.
+you can login using user credentials, interface is different and shows no cases.
+
+Go to Shuffel On Apps section search for TheHive and use it in Workflow. Click on TheHIive Icon on authentication field click + and paste the API key, URL section copy and paste your Hive IP Address with port 9000.
+FInd Action -> Create a Alert
+Description -> "Mimikatz detected on host: (use exceution argument and select computer) from user: (select user from Execution Argument Field)" and we can select as much information we need for project purpose iam selecting two of them.
+Flag -> False
+Pap -> 2(As per documentation)
+Severity -> 2
+Source -> Wazuh
+Sourceref -> "Rule:100002" (Rule no which is created in wazuh)
+Summary -> "Mimikatz activity detected on host: (use exceution argument and select computer) and process id: (Select process id from Execution Argument) and CommandLine is: (Search for Command Line in Execution Argument)" We can take the information we required i selected these 3
+Tags -> ["T1003"]
+Title -> Slected from Excution Argument field named Title.
+Tlp -> 2
+Type -> Internal
+
+Change the Firewall Setting add UDP with Port : 9000 and allow all IPV4.
