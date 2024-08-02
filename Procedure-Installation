@@ -58,12 +58,13 @@ Once it is created Use IPV4 Address of created Droplet/Cloud and lanuch console 
 Use Command to update : "apt-get update && apt-get upgrade -y" Once the updates got installed.
 Use Command from below link and run all commands one by one : https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions
 
-You Will see User name and Password Kindly note it down. 
-If you miss to note it down they is command in link use it to get password for complete Wazuh Dashboard.
+You Will see User name and Password Kindly which are used to login to Wazuh Dashboard(Do refer https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions If you forgot the password)
 
 Now copy IPV4 address of Wazuh Droplet and open in your browser by inserting https:"ipv4 Address of Wazuh"
 
 A Login Page of Wazuh will apear use User ID and Password to login.
+
+<img width="1079" alt="Wazuh Login" src="https://github.com/user-attachments/assets/e42bef8e-3022-48ac-b463-fdb6a13d25c2">
 
 With the same Procedure Create another Droplet and name it as thehive and configuration is mentioned in link provide below.
 Install all the required software with the above link one by one : https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/TheHive-Install-Instructions.
@@ -74,9 +75,24 @@ Here are the steps to configure the Hive server:
 
 Edit Cassandra configuration file path: /etc/cassandra/cassandra.yaml
 Nano /etc/cassandra/cassandra.yaml
+
+<img width="1067" alt="First Page -1" src="https://github.com/user-attachments/assets/4f2c89f5-eb88-433c-8cab-0f239a2e009b">
+
 To search use (Control + W) or (Control + Q)
 Change listen_address and RPC_address to the public IP of the Hive server.
-Change seed_address to the public IP of the Hive server.
+
+Listen_address:
+
+![Listen_address](https://github.com/user-attachments/assets/a9edcd26-5784-41d7-81ee-a0e06af4c336)
+
+rpc_address:
+
+<img width="1067" alt="rpc_address" src="https://github.com/user-attachments/assets/4aa9740a-8163-419a-8c95-faa8ff085a85">
+
+Change seed_provider to the public IP of the Hive server.
+seed_provider:
+<img width="1079" alt="Seed_provider" src="https://github.com/user-attachments/assets/f314c3ef-8632-48f5-b4d4-db705196be56">
+
 Stop Cassandra service: systemctl stop cassandra.
 And Save it with by using (Control + X) and press Y and hit enter. It will be saved
 Remove old files: rm -rf /var/lib/cassandra/*.
@@ -84,6 +100,9 @@ Remove old files: rm -rf /var/lib/cassandra/*.
 After Every changes we make we need to restart the system to get it updated and start with all the configuration.
 Start Cassandra service: systemctl start cassandra.
 Check Cassandra service status: systemctl status cassandra.
+
+<img width="1067" alt="Status the Hive" src="https://github.com/user-attachments/assets/c8ecb826-5bf6-4be2-8c4c-81e4422f6d3f">
+
 Edit Elasticsearch configuration file: /etc/elasticsearch/elasticsearch.yml
 To search use (Control + W) or (Control + Q)
 Uncomment cluster name and change it to the Hive server name.
@@ -96,12 +115,14 @@ After Every changes we make we need to restart the system to get it updated and 
 Start Elasticsearch service: systemctl start elasticsearch.
 Enable Elasticsearch service: systemctl enable elasticsearch.
 Check Elasticsearch service status: systemctl status elasticsearch.
+<img width="1078" alt="Elasticsearch" src="https://github.com/user-attachments/assets/77c64f9e-be89-42f6-9136-f8e58fa57c5b">
 
 Check whether we have access to thehive file path
-ls -la /opt/thp/
-If Not Change Access
+ls -la /opt/thp/  If dont have access provide access to user
 Change owner and group of the Hive directory to The Hive user and group: chown -R TheHive:TheHive /opt/thehive.
 Edit Hive configuration file: /etc/thehive/application.conf.
+Command: 
+nano /etc/thehive/application.conf
 
 Change in database and index Comment Column
 host name to the public IP of the Hive server.
@@ -115,16 +136,29 @@ And Save it with by using (Control + X) and press Y and hit enter. It will be sa
 Start Hive service: systemctl start thehive.
 Enable Hive service: systemctl enable thehive.
 Check Hive service status: systemctl status thehive.
+
+
 Hive server should now be up and running. You can access the Hive dashboard by navigating to the public IP of the Hive server with port 9000 and logging in with the default credentials (admin:admin and password:secret).
 
 Here are the steps to configure Wazuh server:
 
-Log into Wazuh dashboard using the administrative credentials obtained.(If you forgot password refer line 62)
+Log into Wazuh dashboard using the administrative credentials obtained.(Do refer https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions If you forgot the password)
+Wazuh Dashboard:
+<img width="1079" alt="Wazuh Interface" src="https://github.com/user-attachments/assets/86604861-c660-48e7-b390-18c48215002c">
+
 Add an agent by clicking on ADD agent and selecting Windows.
+<img width="1079" alt="Add Agent" src="https://github.com/user-attachments/assets/c0872161-a644-41d6-adbd-48c4b1b4ae79">
+<img width="1079" alt="Add Agent 2" src="https://github.com/user-attachments/assets/b72b976e-237e-49a9-a651-56abf68e9d5a">
+
 Server address: Public IP of Wazuh server.
 Assign an agent name (optional).
 Copy the provided command and run it on the Windows machine with administrative privileges to install the agent.
+
+<img width="1079" alt="Power Shell Wazuh Agent 2" src="https://github.com/user-attachments/assets/64a24c4d-7350-4376-8a4e-1cce640effc3">
+
 Start the service on the Windows machine: net start WazuhSVC (or start the service from Services).
+<img width="1079" alt="Services" src="https://github.com/user-attachments/assets/4f107427-7564-47ec-8b70-b5dc0056feb7">
+
 Check the Wazuh dashboard. You should see the agent listed as active after a few seconds.
 Now you have both Hive and Wazuh servers configured and working as expected.
 
@@ -141,9 +175,10 @@ Paste the copied channel name into the location tag under <application>.
 Restart Wazuh service:
 Open services.msc, Locate Wazuh service. Right-click on the service and select “Restart”
 Verify Sysmon events are being ingested:
-Open the Wasa dashboard
+Open the Wazuh dashboard
 Go to Events -> Alerts Index
 Search for “sysmon”
+<img width="1079" alt="SYSmon Alert Index" src="https://github.com/user-attachments/assets/1e50c7a8-9c14-4add-996d-d6ac734df87f">
 
 Download Mimikatz:
 Make sure to disable Windows Defender or exclude your downloads folder before downloading Mimikatz.
@@ -154,6 +189,7 @@ Run Mimikatz as administrator:
 Open a PowerShell session with administrative privileges.
 Change your directory to the location where you extracted Mimikatz.
 Run the command: mimikatz.exe
+
 Create a custom alert in Wazuh to detect Mimikatz:
 Go to the Wazuh manager CLI and create a backup of the ossec.conf file. (Always Create Backup for Configuration files which will save during error cases)
 Command : 
@@ -162,15 +198,24 @@ Do check it by using command ls
 
 Command: nano /var/ossec/etc/ossec.conf
 Edit the ossec.conf file and change the <log_all> section to “yes” under the `<alerts>” section. This will allow Wazuh to log everything.
-Restart the Wasa manager service by typing: system ctl restart wazuh-manager
-Update the filebeat configuration file by typing: nano /etc/filebeat/filebeat.yml
+<img width="1079" alt="Ossec Configuration" src="https://github.com/user-attachments/assets/6cc2f2b1-80c3-4f6e-a13b-3a635239b926">
+
+Restart the Wazuh manager service by typing:
+systemctl restart wazuh-manager
+
+Update the filebeat configuration file by typing:
+nano /etc/filebeat/filebeat.yml
+
 Change the archives_enabled setting to “true”.
-Restart the filebeat service by typing: systemctl restart filebeat
+Restart the filebeat service by typing:
+systemctl restart filebeat
+
 Create a new index pattern in the Wazuh dashboard by clicking on the hamburger icon in the top left corner and selecting “Stack Management” -> “Index Patterns”.
 Name the new index pattern “Wazuh-Archives-*”.
 Select the “timestamp” field for the time field.
-Go to Discover in the Wasa dashboard and select the “Wazuh-Archives-*” index pattern from the dropdown menu.
+Go to Discover in the Wazuh dashboard and select the “Wazuh-Archives-*” index pattern from the dropdown menu.
 Search for “mimikatz” in the search bar.
+<img width="1079" alt="Mimikatz Detected" src="https://github.com/user-attachments/assets/699d33c0-c3e9-4849-918e-b4b40df444a5">
 
 Create a custom rule to target Mimikatz:
 Go to the Wazuh dashboard and click on the home button.
