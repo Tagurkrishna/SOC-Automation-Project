@@ -144,20 +144,14 @@ Here are the steps to configure Wazuh server:
 
 Log into Wazuh dashboard using the administrative credentials obtained.(Do refer https://github.com/Tagurkrishna/SOC-Automation-Project/blob/main/Wazuh-Install-Instructions If you forgot the password)
 Wazuh Dashboard:
-<img width="1079" alt="Wazuh Interface" src="https://github.com/user-attachments/assets/86604861-c660-48e7-b390-18c48215002c">
 
 Add an agent by clicking on ADD agent and selecting Windows.
-<img width="1079" alt="Add Agent" src="https://github.com/user-attachments/assets/c0872161-a644-41d6-adbd-48c4b1b4ae79">
-<img width="1079" alt="Add Agent 2" src="https://github.com/user-attachments/assets/b72b976e-237e-49a9-a651-56abf68e9d5a">
 
 Server address: Public IP of Wazuh server.
 Assign an agent name (optional).
 Copy the provided command and run it on the Windows machine with administrative privileges to install the agent.
 
-<img width="1079" alt="Power Shell Wazuh Agent 2" src="https://github.com/user-attachments/assets/64a24c4d-7350-4376-8a4e-1cce640effc3">
-
 Start the service on the Windows machine: net start WazuhSVC (or start the service from Services).
-<img width="1079" alt="Services" src="https://github.com/user-attachments/assets/4f107427-7564-47ec-8b70-b5dc0056feb7">
 
 Check the Wazuh dashboard. You should see the agent listed as active after a few seconds.
 Now you have both Hive and Wazuh servers configured and working as expected.
@@ -198,7 +192,6 @@ Do check it by using command ls
 
 Command: nano /var/ossec/etc/ossec.conf
 Edit the ossec.conf file and change the <log_all> section to “yes” under the `<alerts>” section. This will allow Wazuh to log everything.
-<img width="1079" alt="Ossec Configuration" src="https://github.com/user-attachments/assets/6cc2f2b1-80c3-4f6e-a13b-3a635239b926">
 
 Restart the Wazuh manager service by typing:
 systemctl restart wazuh-manager
@@ -245,7 +238,8 @@ Use Create workflow option to create new workflow and name the work flow and Use
 You will be seen with Change me icon on workflow. Now from trigger section add Webhook and customize it by changing it name for better and clear understanding.
 Now click on Change_me icon on workflow and for intialze checking find actions be as Repeat back to me and Call should be give as Execution Statement.
 Copy Webhook URL from Webhook and place it on conf files of Wazuh, On wazuh console use command: nano /var/ossec/etc/ossec.conf and paste the command provide below between Ossec configuration and alerts by maintaining indendtation
- <integration>
+
+<integration>
      <name>shuffle</name>
      <hook_url>Link</hook_url>
      <level>15</level>
@@ -289,14 +283,3 @@ Change the Firewall Setting add UDP with Port : 9000 and allow all IPV4.
 Run the workflow, aftersuccesful competion you will recive a mail to your TheHive mail id.
 
 With This The SOC Automation Projects Ends
-
-Apart from TheHive we can automate by using Temp or Disposable or any domain Email id, Even add addtional security features like Ip Address filtering and blocking of unauthorized ip address.
-Use Webflow Apps and triggers:
-Wazuh
-Email
-HTTP
-WebHook
-Virustotal
-UserInput
-
-COnfigure and work these
