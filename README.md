@@ -51,5 +51,3 @@ This project demonstrates the implementation of automated Security Operations Ce
 - Integration of multiple security tools to provide a comprehensive defense mechanism.
 
 </small>
-
-Completled Project with the help and gudiance of MYDFIR.
